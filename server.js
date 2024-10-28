@@ -4,7 +4,7 @@ const http = require('http'),
 
 http.createServer((request, response) => {
   let addr = request.url,
-  q = new url(addr, 'http://localhost:8080'),
+  q = new URL(addr, 'http://' + request.headers.host + '/'),
   filePath = '';
   
   fs.appendFile('log.txt', 'URL: ' + addr + '\nTimeStamp: ' + new Date() + '\n\n', (err) => {
@@ -16,7 +16,7 @@ http.createServer((request, response) => {
   });
 
   if (q.pathname.includes('documentation')) {
-    filePath = (__dirname + 'documentation.html');
+    filePath = (__dirname + '\\' + 'documentation.html');
   } else {
     filePath = 'index.html';
   }
