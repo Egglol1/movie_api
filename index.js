@@ -1,10 +1,20 @@
 const express = require('express'),
  morgan = require('morgan'),
  fs = require('fs'),
+ bodyParser = require('bodyparser'),
+ methodOverride = require('method-override')
  path = require('path');
 
 const app = express();
-const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.txt'), {flags: 'a'})
+
+
+app.use(morgan('common'));
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
+app.use(bodyParser.json());
+app.use(methodOverride());
+app.use(express.static('public'));
 
 let topMovies = [
   {
@@ -49,13 +59,6 @@ let topMovies = [
   }
 ];
 
-app.use(morgan('combined', {stream: accessLogStream}));
-app.use(express.static('public'));
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).send('Something broke!');
-});
-
 //GET Requests
 app.get('/', (req, res) => {
   res.send('Welcome to my movie club!');
@@ -67,6 +70,11 @@ app.get('/documentation', (req, res) => {
 
 app.get('/movies', (req, res) => {
   res.json(topMovies);
+});
+
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Something broke!');
 });
 
 //listen for requests
