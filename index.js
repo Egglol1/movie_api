@@ -50,6 +50,7 @@ let topMovies = [
 ];
 
 app.use(morgan('combined', {stream: accessLogStream}));
+app.use(express.static('/documentation', 'public'));
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send('Something broke!');
