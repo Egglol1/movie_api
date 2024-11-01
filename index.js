@@ -2,11 +2,10 @@ const express = require('express'),
  morgan = require('morgan'),
  fs = require('fs'),
  bodyParser = require('body-parser'),
- methodOverride = require('method-override')
+ methodOverride = require('method-override'),
  path = require('path');
 
 const app = express();
-
 
 app.use(morgan('common'));
 app.use(bodyParser.urlencoded({
@@ -69,7 +68,39 @@ app.get('/documentation', (req, res) => {
 });
 
 app.get('/movies', (req, res) => {
-  res.json(topMovies);
+  res.json('Successful GET request showing a list of all movies');
+});
+
+app.get('/movies/:title', (req, res) => {
+  res.json('Successful GET request showing information about a movie by title');
+});
+
+app.get('/movies/genres/:name', (req, res) => {
+  res.json('Successful GET request showing a list of all movies within a genre');
+});
+
+app.get('/movies/directors/:name', (req, res) => {
+  res.json('Successful GET request showing information about a director by name');
+});
+
+app.post('/user/register', (req, res) => {
+  res.json('Successful POST request showing that a user has registered');
+});
+
+app.put('/user/info', (req, res) => {
+  res.json('Successful PUT request showing a user has updated their info');
+});
+
+app.put('/user/favorites/add', (req, res) => {
+  res.json('Successful PUT request showing a movie has been added to favorites');
+});
+
+app.put('/user/favorites/remove', (req, res) => {
+  res.json('Successful PUT request showing a movie has been removed from favorites');
+});
+
+app.delete('/user/deregister', (req, res) => {
+  res.json('Successful DELETE request showing a user has been deregistered');
 });
 
 app.use((err, req, res, next) => {

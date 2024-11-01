@@ -6,4 +6,13 @@
 </head>
 <body>
   <div>This is prototype code for a from-scratch API that will grab information about movies from a server and return them to a client.</div>
+  <div>GET | /movies | (list of all movies) | No Query | No request body needed, clarified by URL | Response will be an HTML page of movies</div>
+  <div>GET | /movies/:title | (page of movie by name and its information) | Query must be the title of the movie | No request body needed, clarified by URL | Response will be an HTML page of the specific movie</div>
+  <div>GET | /movies/genres/:name | (list of all movies in a genre) | Query must be the name of the genre | No request body needed, clarified by URL | Response will be an HTML page of movies within specific genre</div>
+  <div>GET | /movies/directors/:name | (page of information about a director by name) | Query must be name of director | No request body needed, clarified by URL | Response will be an HTML page of the director</div>
+  <div>POST | /user/register | (allows a user to register) | No Query | Format of body will be a form requiring an email, username, and password ex.[DoeJohn1@gmail.com, JohnDoe1, Password] | Response will be a confirmation on the page</div>
+  <div>PUT | /user/info | (allows a user to update their information) | No Query | Format of body will be an editable text box of user information, which will update when changed [Username: JohnDoe2]| Response will be confirmation on the page</div>
+  <div>PUT | /user/favorites/add | (allows a user to add a movie to their favorites) | No Query | Format of body will be a fillable form of which movie must be added to a list of favorites ['Godzilla (2014)']| Response will be a confirmation on the page</div>
+  <div>PUT | /user/favorites/remove | (allows a user to remove a movie from their favorites) | No Query | Format of body will be a fillable form of which movie must be removed from a list of favorites ['Godzilla (1954)']| Response will be a confirmation on the page</div>
+  <div>DELETE | /user/deregister | (allows a user to deregister) | No Query | Format of body will be a button stating intent to remove one's own account ['Are you sure you wish to delete your account?']| Response will be a confirmation no the page</div>
 </body>
