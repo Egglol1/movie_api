@@ -1,7 +1,7 @@
 const express = require('express'),
  morgan = require('morgan'),
  fs = require('fs'),
- bodyParser = require('bodyparser'),
+ bodyParser = require('body-parser'),
  methodOverride = require('method-override')
  path = require('path');
 
