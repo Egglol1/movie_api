@@ -75,20 +75,36 @@ app.get('/movies/:title', (req, res) => {
   res.json('Successful GET request showing information about a movie by title');
 });
 
+app.get('/movies/genres/', (req, res) => {
+  res.json('Successful GET request showing a list of all movie genres');
+});
+
 app.get('/movies/genres/:name', (req, res) => {
   res.json('Successful GET request showing a list of all movies within a genre');
+});
+
+app.get('/movies/directors/', (req, res) => {
+  res.json('Successful GET request showing a list of all directors');
 });
 
 app.get('/movies/directors/:name', (req, res) => {
   res.json('Successful GET request showing information about a director by name');
 });
 
+app.get('/user', (req, res) => {
+  res.json('Successful GET request showing information about a user');
+});
+
 app.post('/user/register', (req, res) => {
   res.json('Successful POST request showing that a user has registered');
 });
 
-app.put('/user/info', (req, res) => {
+app.put('/user/update', (req, res) => {
   res.json('Successful PUT request showing a user has updated their info');
+});
+
+app.get('/user/favorites', (req, res) => {
+  res.json('Successful GET request showing a list of a user\'s favorite movies');
 });
 
 app.put('/user/favorites/add', (req, res) => {
