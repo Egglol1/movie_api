@@ -59,19 +59,19 @@ let topMovies = [
 ];
 
 let genresList = [
-  'Action',
-  'Mystery',
-  'Thriller',
-  'Comedy',
-  'Family',
-  'Horror',
-  'Animation',
-  'Crime',
-  'Drama',
-  'Fantasy',
-  'Historical',
-  'Romance',
-  'Sci-Fi'
+  {name: 'Action'},
+  {name: 'Mystery'},
+  {name: 'Thriller'},
+  {name: 'Comedy'},
+  {name: 'Family'},
+  {name: 'Horror'},
+  {name: 'Animation'},
+  {name: 'Crime'},
+  {name: 'Drama'},
+  {name: 'Fantasy'},
+  {name: 'Historical'},
+  {name: 'Romance'},
+  {name: 'Sci-Fi'}
 ]
 
 //GET Requests
@@ -91,7 +91,7 @@ app.get('/movies', (req, res) => {
 app.get('/movies/:title', (req, res) => {
   //res.json('Successful GET request showing information about a movie by title');
   res.json(topMovies.find((movie) =>
-  {return movie.name === req.params.name}));
+  {return movie.title === req.params.title}));
 });
 
 app.get('/genres', (req, res) => {
@@ -106,11 +106,14 @@ app.get('/genres/:name', (req, res) => {
 });
 
 app.get('/directors', (req, res) => {
-  res.json('Successful GET request showing a list of all directors');
+  //res.json('Successful GET request showing a list of all directors');
+  res.json(topMovies);
 });
 
-app.get('/directors/:name', (req, res) => {
-  res.json('Successful GET request showing information about a director by name');
+app.get('/directors/:director', (req, res) => {
+  //res.json('Successful GET request showing information about a director by name');
+  res.json(topMovies.find((director) =>
+  {return director.director === req.params.director}));
 });
 
 app.get('/user', (req, res) => {
