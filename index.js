@@ -4,8 +4,12 @@ const express = require('express'),
  bodyParser = require('body-parser'),
  methodOverride = require('method-override'),
  path = require('path');
-
 const app = express();
+
+const mongoose = require('mongoose');
+const Models = require('./models.js');
+const Movies = Models.Movie;
+const Users = Models.User;
 
 app.use(morgan('common'));
 app.use(bodyParser.urlencoded({
