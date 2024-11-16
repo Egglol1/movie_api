@@ -116,7 +116,7 @@ app.get('/genres', (req, res) => {
   res.json(genresList)
 });
 
-app.get('movies/:Title/genres/', async (req, res) => {
+app.get('/movies/:Title/genres', async (req, res) => {
   await Movies.findOne({ Title: req.params.Title })
     .then((genre) => {
       res.json(genre).Genre;
