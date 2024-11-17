@@ -10,10 +10,10 @@ const mongoose = require('mongoose');
 const Models = require('./models.js');
 const Movies = Models.Movie;
 const Users = Models.User;
-
 mongoose.connect('mongodb://localhost:27017/cfBD', { useNewUrlParser: true, useUnifiedTopology: true });
 
 const cors = require('cors');
+const bcrypt = require('bcrypt');
 
 app.use(morgan('common'));
 app.use(bodyParser.urlencoded({
@@ -24,7 +24,6 @@ app.use(methodOverride());
 app.use(express.static('public'));
 
 let allowedOrigins = ['http://localhost:8080', 'http://testsite.com'];
-
 app.use(cors({
   origin: (origin, callback) => {
     if(!origin) return callback(null, true);
@@ -196,6 +195,7 @@ app.get('/user/:Username', passport.authenticate('jwt', { session: false }), asy
   Birthday: Date
 }*/
 app.post('/user', async (req, res) => {
+  let hashedPassword = Users.hashPassword(req.body.Password);
   await Users.findOne({ Username: req.body.Username })
     .then((user) => {
       if (user) {
@@ -204,7 +204,7 @@ app.post('/user', async (req, res) => {
         Users
           .create({
             Username: req.body.Username,
-            Password: req.body.Password,
+            Password: hashedPassword,
             Email: req.body.Email,
             Birthday: req.body.Birthday
           })
