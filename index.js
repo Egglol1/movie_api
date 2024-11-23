@@ -198,7 +198,7 @@ app.get('/user/:Username', passport.authenticate('jwt', { session: false }), asy
 }*/
 app.post('/user',
   [
-    check('Username', 'Username is required').isLength({min: 5}),
+    check('Username', 'Username must be longer than five characters.').isLength({min: 5}),
     check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
     check('Password', 'Password is required').not().isEmpty(),
     check('Email', 'Email does not appear to be valid').isEmail()
@@ -244,8 +244,8 @@ app.post('/user',
   (required)
   Birthday: Date
 }*/
-app.put('/user/:Username', [
-  check('Username', 'Username is required').isLength({min: 5}),
+app.put('/user', [
+  check('Username', 'Username must be at least five characters.').isLength({min: 5}),
   check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
   check('Password', 'Password is required').not().isEmpty(),
   check('Email', 'Email does not appear to be valid').isEmail()
@@ -255,7 +255,7 @@ app.put('/user/:Username', [
     return res.status(422).json({errors: errors.array()});
   }
 
-  await Users.findOneAndUpdate({ Username: req.params.Username }, { $set:
+  await Users.findOneAndUpdate({ Username: req.user.Username }, { $set:
     {
       Username: req.body.Username,
       Password: req.body.Password,
@@ -286,8 +286,8 @@ app.get('/user/:Username/movies', passport.authenticate('jwt', { session: false 
 });
 
 // Add a movie to a user's list of favorites
-app.post('/user/:Username/movies/:MovieID', passport.authenticate('jwt', { session: false }), async (req, res) => {
-  await Users.findOneAndUpdate({ Username: req.params.Username }, {
+app.post('/user/movies/:MovieID', passport.authenticate('jwt', { session: false }), async (req, res) => {
+  await Users.findOneAndUpdate({ Username: req.user.Username }, {
      $push: { Favorites: req.params.MovieID }
    },
    { new: true }) // This line makes sure that the updated document is returned
@@ -301,8 +301,8 @@ app.post('/user/:Username/movies/:MovieID', passport.authenticate('jwt', { sessi
 });
 
 // Removes a movie from a user's list of favorites
-app.delete('/user/:Username/movies/:MovieID', passport.authenticate('jwt', { session: false }), async (req, res) => {
-  await Users.findOneAndUpdate({ Username: req.params.Username }, {
+app.delete('/user/movies/:MovieID', passport.authenticate('jwt', { session: false }), async (req, res) => {
+  await Users.findOneAndUpdate({ Username: req.user.Username }, {
      $pull: { Favorites: req.params.MovieID }
    },
    { new: true }) // This line makes sure that the updated document is returned
@@ -316,13 +316,13 @@ app.delete('/user/:Username/movies/:MovieID', passport.authenticate('jwt', { ses
 });
 
 // Delete a user by username
-app.delete('/user/:Username', passport.authenticate('jwt', { session: false }), async (req, res) => {
-  await Users.findOneAndDelete({ Username: req.params.Username })
+app.delete('/user', passport.authenticate('jwt', { session: false }), async (req, res) => {
+  await Users.findOneAndDelete({ Username: req.user.Username })
     .then((user) => {
       if (!user) {
-        res.status(400).send(req.params.Username + ' was not found');
+        res.status(400).send(req.user.Username + ' was not found');
       } else {
-        res.status(200).send(req.params.Username + ' was deleted.');
+        res.status(200).send(req.user.Username + ' was deleted.');
       }
     })
     .catch((err) => {
