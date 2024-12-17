@@ -35,6 +35,9 @@ app.use(cors({
       let message = 'The CORS policy for this application doesn\'t allow access from origin ' + origin;
       return callback(new Error(message ), false);
     }
+  res.header('Access-Control-Allow-Methods', 'GET, OPTIONS, PUT');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.header('Access-Control-Allow-Credentials', true);
     return callback(null, true);
   }
 }));
