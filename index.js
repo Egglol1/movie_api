@@ -26,15 +26,26 @@ app.use(methodOverride());
 app.use(express.static('public'));
 
 let allowedOrigins = ['http://localhost:8080', 'http://testsite.com', 'http://localhost:1234'];
+//app.use(cors({
+//  origin: (origin, callback) => {
+//    console.log('Origin: ', origin)
+//    if(!origin || allowedOrigins.includes(origin)) return callback(null, true);
+//    if(allowedOrigins.indexOf(origin) === -1){ // If a specific origin isn’t found on the list of allowed origins
+//      let message = 'The CORS policy for this application doesn\'t allow access from origin ' + origin;
+//      return callback(new Error(message ), false);
+//    }
+//    return callback(null, true);
+//  }
+//}));
+
 app.use(cors({
   origin: (origin, callback) => {
-    console.log('Origin: ', origin)
-    if(!origin || allowedOrigins.includes(origin)) return callback(null, true);
-    if(allowedOrigins.indexOf(origin) === -1){ // If a specific origin isn’t found on the list of allowed origins
-      let message = 'The CORS policy for this application doesn\'t allow access from origin ' + origin;
-      return callback(new Error(message ), false);
+    console.log('Origin:', origin); // Add this line to debug which origin is being checked
+    if (!origin || allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    } else {
+      return callback(new Error('Not allowed by CORS'), false);
     }
-    return callback(null, true);
   }
 }));
 
