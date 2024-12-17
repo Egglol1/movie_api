@@ -25,7 +25,8 @@ app.use(bodyParser.json());
 app.use(methodOverride());
 app.use(express.static('public'));
 
-let allowedOrigins = ['http://localhost:8080', 'http://testsite.com', 'http://localhost:1234'];
+//'http://localhost:8080', 'http://testsite.com', 'http://localhost:1234'
+let allowedOrigins = ['*'];
 app.use(cors({
   origin: (origin, callback) => {
     if(allowedOrigins.includes(origin)) {
