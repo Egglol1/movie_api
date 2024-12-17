@@ -25,23 +25,34 @@ app.use(bodyParser.json());
 app.use(methodOverride());
 app.use(express.static('public'));
 
-//'http://localhost:8080', 'http://testsite.com', 'http://localhost:1234'
-let allowedOrigins = ['*'];
-app.use(cors({
-  origin: (origin, callback) => {
-    if(allowedOrigins.includes(origin)) {
-      res.setHeader("Access-Control-Allow-Origin", origin);
-    }
-    if(allowedOrigins.indexOf(origin) === -1){ // If a specific origin isn’t found on the list of allowed origins
-      let message = 'The CORS policy for this application doesn\'t allow access from origin ' + origin;
-      return callback(new Error(message ), false);
-    }
-  res.header('Access-Control-Allow-Methods', 'GET, OPTIONS, PUT');
+//let allowedOrigins = ['http://localhost:8080', 'http://testsite.com', 'http://localhost:1234'];
+//app.use(cors({
+//  origin: (origin, callback) => {
+//    if(allowedOrigins.includes(origin)) {
+//      res.setHeader("Access-Control-Allow-Origin", origin);
+//    }
+//    if(allowedOrigins.indexOf(origin) === -1){ // If a specific origin isn’t found on the list of allowed origins
+//      let message = 'The CORS policy for this application doesn\'t allow access from origin ' + origin;
+//      return callback(new Error(message ), false);
+//    }
+//  res.header('Access-Control-Allow-Methods', 'GET, OPTIONS, PUT');
+//  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+//  res.header('Access-Control-Allow-Credentials', true);
+//    return callback(null, true);
+//  }
+//}));
+
+app.use((req, res, next) => {
+  const allowedOrigins = ['http://127.0.0.1:8020', 'http://localhost:8020', 'http://127.0.0.1:9000', 'http://localhost:9000', 'http://localhost:1234'];
+  const origin = req.headers.origin;
+  if (allowedOrigins.includes(origin)) {
+       res.setHeader('Access-Control-Allow-Origin', origin);
+  }
+  res.header('Access-Control-Allow-Methods', 'GET, OPTIONS');
   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   res.header('Access-Control-Allow-Credentials', true);
-    return callback(null, true);
-  }
-}));
+  return next();
+});
 
 let auth = require('./auth')(app);
 const passport = require('passport');
