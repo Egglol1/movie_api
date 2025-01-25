@@ -25,7 +25,7 @@ app.use(bodyParser.json());
 app.use(methodOverride());
 app.use(express.static('public'));
 
-let allowedOrigins = ['http://localhost:8080', 'http://testsite.com', 'http://localhost:1234'];
+let allowedOrigins = ['http://localhost:8080', 'http://testsite.com', 'http://localhost:1234', 'https://egglol1-myflix-85b3e5.netlify.app'];
 //app.use(cors({
 //  origin: (origin, callback) => {
 //    console.log('Origin: ', origin)
