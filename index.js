@@ -116,15 +116,18 @@ let genresList = [
   { name: 'Sci-Fi' },
 ];
 
-//GET Requests
+/**
+ * The welcome page
+ * @returns a welcome page
+ */
 app.get('/', (req, res) => {
   res.send('Welcome to my movie club!');
 });
 
-app.get('/documentation', (req, res) => {
-  res.sendFile('public/documentation.html', { root: __dirname });
-});
-
+/**
+ * This endpoint gives a list of all movies
+ * @returns a JSON of the movies list within the database
+ */
 app.get(
   '/movies',
   passport.authenticate('jwt', { session: false }),
@@ -140,6 +143,11 @@ app.get(
   }
 );
 
+/**
+ * This endpoint finds a movie by title
+ * @param Title - the title of a movie to get specific data for
+ * @returns data pertaining to the movie in the URL
+ */
 app.get(
   '/movies/:Title',
   passport.authenticate('jwt', { session: false }),
@@ -155,6 +163,10 @@ app.get(
   }
 );
 
+/**
+ * This endpoint gives a list of all genres
+ * @returns a JSON of every genre in the database
+ */
 app.get(
   '/genres',
   passport.authenticate('jwt', { session: false }),
@@ -164,7 +176,11 @@ app.get(
   }
 );
 
-//get single genre by name
+/**
+ * This endpoint finds a genre by name
+ * @param Name - the name of a specific genre to get data for
+ * @returns information about the selected genre
+ */
 app.get(
   '/genres/:Name',
   passport.authenticate('jwt', { session: false }),
@@ -180,6 +196,11 @@ app.get(
   }
 );
 
+/**
+ * This endpoint finds the genre of one movie by title
+ * @param Title - the title of the movie to find the genre for
+ * @returns the genres that a movie qualify for
+ */
 app.get(
   '/movies/:Title/genres',
   passport.authenticate('jwt', { session: false }),
@@ -195,6 +216,10 @@ app.get(
   }
 );
 
+/**
+ * This endpoint gives a list of all directors
+ * @returns a JSON list of all directors in the database
+ */
 app.get(
   '/directors',
   passport.authenticate('jwt', { session: false }),
@@ -204,7 +229,11 @@ app.get(
   }
 );
 
-//get single director by name
+/**
+ * This endpoint finds a director by name
+ * @param Name - the name of a specific director
+ * @returns the data about the selected director
+ */
 app.get(
   '.directors/:Name',
   passport.authenticate('jwt', { session: false }),
@@ -220,6 +249,11 @@ app.get(
   }
 );
 
+/**
+ * This endpoint returns the director of a movie by name
+ * @param Title - the title of the movie to get the director for
+ * @returns information about the director of a movie
+ */
 app.get(
   '/movies/:Title/directors',
   passport.authenticate('jwt', { session: false }),
@@ -235,7 +269,10 @@ app.get(
   }
 );
 
-// Get all users
+/**
+ * This endpoint gets all users
+ * @returns a JSON list of all user information, hashed passwords!
+ */
 app.get(
   '/user',
   passport.authenticate('jwt', { session: false }),
@@ -251,7 +288,11 @@ app.get(
   }
 );
 
-// Get a user by username
+/**
+ * This endpoint gets a user by username
+ * @param Username - the username of the user we're looking for
+ * @returns a JSON of the user's information, username, email, birthday
+ */
 app.get(
   '/user/:Username',
   passport.authenticate('jwt', { session: false }),
@@ -267,15 +308,17 @@ app.get(
   }
 );
 
-//Add a user
-/* We’ll expect JSON in this format
-{
-  ID: Integer,
-  Username: String,
-  Password: String,
-  Email: String,
-  Birthday: Date
-}*/
+/**
+ * This endpoint adds a user
+ * @param {string} userData -  We’ll expect JSON in this format
+  {
+    ID: Integer,
+    Username: String,
+    Password: String,
+    Email: String,
+    Birthday: Date
+  }
+ */
 app.post(
   '/user',
   [
@@ -322,17 +365,16 @@ app.post(
   }
 );
 
-// Update a user's info, by username
-/* We’ll expect JSON in this format
-{
-  Username: String,
-  (required)
-  Password: String,
-  (required)
-  Email: String,
-  (required)
-  Birthday: Date
-}*/
+/**
+ * This endpoint updates a user's data
+ * @param {string} updatedData - We’ll expect JSON in this format
+  {
+    Username: String,
+    Password: String,
+    Email: String,
+    Birthday: Date
+  }
+ */
 app.put(
   '/user',
   [
@@ -375,6 +417,11 @@ app.put(
   }
 );
 
+/**
+ * This endpoint gets a user's favorite movies
+ * @param Username - the username of the user to get
+ * @returns a JSON of the user's favorite movies
+ */
 app.get(
   '/user/:Username/movies',
   passport.authenticate('jwt', { session: false }),
@@ -390,7 +437,11 @@ app.get(
   }
 );
 
-// Add a movie to a user's list of favorites
+/**
+ * This endpoint adds a movie to a user's list of movies
+ * @param Username - The username of the user adding the movie
+ * @param MovieID - The ID of the movie to be added
+ */
 app.post(
   '/user/:Username/movies/:MovieID',
   passport.authenticate('jwt', { session: false }),
@@ -412,7 +463,11 @@ app.post(
   }
 );
 
-// Removes a movie from a user's list of favorites
+/**
+ * This endpoint removes a movie from a user's favorites
+ * @param Username - the username of the user removing the movie
+ * @param MovieID - the id of the movie to be removed
+ */
 app.delete(
   '/user/:Username/movies/:MovieID',
   passport.authenticate('jwt', { session: false }),
@@ -434,7 +489,9 @@ app.delete(
   }
 );
 
-// Delete a user by username
+/**
+ * This endpoint removes a user
+ */
 app.delete(
   '/user',
   passport.authenticate('jwt', { session: false }),
